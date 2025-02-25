@@ -1,3 +1,5 @@
 Feb 25:     Arohan creates this logs file
             Arohan adds comments and some forgotten semicolons to main.ino
             Gautam pushes throttlecode.cpp
+            Arohan updates file extension to throttlecode.ino, adds comments to main
+

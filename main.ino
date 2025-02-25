@@ -6,6 +6,7 @@
 // https://naylampmechatronics.com/img/cms/Datasheets/000036%20-%20datasheet%20KY-023-Joy-IT.pdf
 
 // Will need to import function files
+/* ***THIS IS PUSHED TO THE HANDHELD ARDUINO*** */
 
 // Declare and initialize joystick input pins
 const int JOYSTICK_Rx = A0;
@@ -37,10 +38,10 @@ void loop() {
     }
 
     if (x < 2.502 - 0.05) {
-        // Throttle input in the leftwards direction with magnitude linear to x
+        // Steering input in the leftwards direction with magnitude linear to x
         // This can be a function called throttle(), likely one that takes one argument for
         // angular speed/accel, then the function converts that to a corresponding voltage
     } else if (x > 2.502 + 0.05) {
-        // Throttle input in the rightwards direction with magnitude linear to x - 2.502
+        // Steering input in the rightwards direction with magnitude linear to x - 2.502
     }
 }
