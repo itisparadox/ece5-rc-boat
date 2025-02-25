@@ -1,0 +1,3 @@
+Feb 25:     Arohan creates this logs file
+            Arohan adds comments and some forgotten semicolons to main.ino
+

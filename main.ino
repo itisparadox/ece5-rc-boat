@@ -5,6 +5,8 @@
 // Joystick code inspired by example code from
 // https://naylampmechatronics.com/img/cms/Datasheets/000036%20-%20datasheet%20KY-023-Joy-IT.pdf
 
+// Will need to import function files
+
 // Declare and initialize joystick input pins
 const int JOYSTICK_Rx = A0;
 const int JOYSTICK_Ry = A1;
