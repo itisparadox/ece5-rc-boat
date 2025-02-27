@@ -6,3 +6,5 @@ Feb 26:     Jack creates interpreter.ino.
 			Jack adds comments and functions for throttle() and steer(), dealing with taking joystick output
 			and controlling the motors with it.
 			Jack pushes interpreter.ino
+Feb 27:     Arohan modifies main.ino to include functions from interpreter.ino
+            Arohan pushes main.ino
