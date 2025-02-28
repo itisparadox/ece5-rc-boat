@@ -30,7 +30,7 @@ void throttle(float throttlePercentage) {
 		BEFORE SETUP: 
 			Servo esc;
 		IN THE SETUP:
-			esc.attach(PWM PIN OF CHOICE); -> INITIALIZES PWM PIN TO WRITE 
+			esc.attach(D6); -> INITIALIZES PWM PIN TO WRITE 
 			esc.writeMicroseconds(1000);   -> KEEPS ESC AT MINIMUM THROTTLE WHILE NOT USED
 			delay(2000);				   -> ALLOWS ESC TO INITIALIZE
 	*/
