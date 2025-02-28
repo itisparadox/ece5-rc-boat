@@ -7,6 +7,7 @@
 
 // Will need to import function files
 /* ***THIS IS PUSHED TO THE HANDHELD ARDUINO*** */
+#include "interpreter.ino"
 
 // Declare and initialize joystick input pins
 const int JOYSTICK_Rx = A0;
@@ -23,25 +24,24 @@ void setup() {
 }
 
 void loop() {
-    // Read the current values of the input pins, convert them to 0-5 V
+    // Read the current values of the input pins, convert them to values 0.00—1.00 for the
+    // throttle() and steer() input parameters
     float x, y;
-    x = analogRead(JOYSTICK_Rx) * (5.0 / 1023);
-    y = analogRead(JOYSTICK_Ry) * (5.0 / 1023);
+    x = analogRead(JOYSTICK_Rx) * (1.0 / 1023);
+    y = analogRead(JOYSTICK_Ry) * (1.0 / 1023);
 
-    // Debug module: Output x and y values to serial monitor
+    // Debug module: Output scaled x and y values to serial monitor
     Serial.print("X-axis: "); Serial.print(x, 2); Serial.println("V");
     Serial.print("Y-axis: "); Serial.print(y, 2); Serial.println("V");
    
-    // Include deadzone in throttle inputs of 0.1 V
-    if (y < 2.502 - 0.05) {
-        // Throttle input, linear to y
+    // Include deadzone in throttle inputs of 0.05 (subtracted explicitly for clarity)
+    if (y < 0.500 - 0.025) {
+        throttle(y); // Throttle input, linear to y
     }
 
-    if (x < 2.502 - 0.05) {
-        // Steering input in the leftwards direction with magnitude linear to x
-        // This can be a function called throttle(), likely one that takes one argument for
-        // angular speed/accel, then the function converts that to a corresponding voltage
-    } else if (x > 2.502 + 0.05) {
-        // Steering input in the rightwards direction with magnitude linear to x - 2.502
+    if (x < 0.500 - 0.025) {
+        steer(x); // Steer to the right
+    } else if (x > 0.500 + 0.025) {
+        steer(x); // Steer to the left
     }
 }
