@@ -8,7 +8,7 @@ void setup() {
   pinMode(motorPin, OUTPUT); // Set motorPin as an output
   // This configures the motorPin (pin 9) to be an output, allowing it to send signals to the motor driver.
 
-  Serial.begin(9600);  // Start the serial communication
+  Serial.begin(115200);  // Start the serial communication
   // This initializes the serial communication at a baud rate of 9600, enabling communication between the Arduino and the connected computer (or serial monitor).
 }
 

@@ -12,24 +12,32 @@
 #define JOYSTICK_X A0 // 
 #define JOYSTICK_Y A1
 
+// Convert signals into readable code for the machine
 RF24 radio(7, 8); // CE, CSN pins
 const byte address[6] = "00001";
 
+// Define a data note struct
 struct DataPacket {
     int throttle;
     int steering;
 };
 DataPacket data;
 
+// Create a Servo object (see Servo.h library)
 Servo steeringServo;
 
 void setup() {
+    // Set pins for motor power and direction to output
     pinMode(MOTOR_PWM, OUTPUT);
     pinMode(MOTOR_DIR, OUTPUT);
     
+    // 
     steeringServo.attach(STEERING_SERVO);
-    Serial.begin(9600);
+
+    // 
+    Serial.begin(115200);
     
+    // 
     radio.begin();
     radio.openWritingPipe(address);
     radio.setPALevel(RF24_PA_LOW);
