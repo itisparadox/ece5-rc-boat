@@ -8,3 +8,4 @@ Feb 26:     Jack creates interpreter.ino.
 			Jack pushes interpreter.ino
 Feb 27:     Arohan modifies main.ino to include functions from interpreter.ino
             Arohan pushes main.ino
+Feb 28:     Arohan tests his damn GitHub status by editing this logs file.
