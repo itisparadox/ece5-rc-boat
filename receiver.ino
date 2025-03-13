@@ -18,13 +18,13 @@ Servo steer;
 
 // Define throttle function
 void throttle(float speed) {
-	esc.writeMicroseconds(1000 + throttlePercentage * 1000); // SENDS PWM TO PIN BASED ON INPUT
+	esc.writeMicroseconds(1000 + speed * 1000); // SENDS PWM TO PIN BASED ON INPUT
 	// delay(19 - throttlePercentage); // WAITS 20MS (50Hz CYCLE LENGTH)
 }
 
 // Define steer function
-void steer(float steer) {
-  steer.writeMicroseconds(1000 * steer);
+void rudder(float angle) {
+  steer.writeMicroseconds(1000 * angle);
 }
 
 // Define the DataPacket struct
@@ -73,8 +73,14 @@ void loop() {
     Serial.print("Received: ");
     Serial.print(motorSpeed);  Serial.print(", "); Serial.println(steerMagnitude);
 
+    // Throttle at motorSpeed
+    if (motorSpeed > 0) {
+      throttle(motorSpeed);
+    }
+
+    // Steer at steerMagnitude
+    rudder(steerMagnitude);
+
   }
-
-
 
 }
