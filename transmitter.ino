@@ -10,10 +10,20 @@ RF24 radio(7, 8);
 // pipeline address (must be identical to other transceiver)
 const byte address[6] = "00001";
 
-float payload = 0.0;
+// Declare and initialize joystick input pins
+const int JOYSTICK_Rx = A0;
+const int JOYSTICK_Ry = A1;
+
+// Define a DataPacket struct
+struct DataPacket {
+  float motorSpeed, steerMagnitude;
+};
 
 void setup() {
-	
+	// Connect axis pins to the joystick microcontroller
+  pinMode(JOYSTICK_Rx, INPUT);
+  pinMode(JOYSTICK_Ry, INPUT);
+
 	Serial.begin(9600);
 	
 	while(!Serial) {} // wait for serial to start
@@ -36,16 +46,43 @@ void setup() {
 }
 
 void loop() {
-	
-	bool report = radio.write(&payload, sizeof(float));  // transmit & save the report
+  // Read axis pins
+	float x, y;
+  x = analogRead(JOYSTICK_Rx);
+  y = analogRead(JOYSTICK_Ry);
 
-	 if (report) {
-     	Serial.print("Transmission successful! ");  // payload was delivered
-      	Serial.print("Sent: ");
-      	Serial.println(payload);  // print payload sent
-    } else {
-      	Serial.println("Transmission failed or timed out");  // payload was not delivered
-    }
+  // Map the values and assign them to new variables
+  float motorSpeed = -1 * ((y*2-1023) / 1023); // 1023 to 0 mapped to -1 to 1
+  float steerMagnitude = 2 + ((x-1023) / 1023); // 0 to 1023 mapped to 1 to 2
+
+  // Debug motorSpeed and steerMagnitude: output values
+  Serial.print("Motor Speed: "); Serial.println(motorSpeed, 2);
+  Serial.print("Steering Magnitude: "); Serial.println(steerMagnitude, 2);
+
+  // Store motorSpeed and steerMagnitude in a DataPacket
+  DataPacket joystickData;
+  joystickData.motorSpeed = motorSpeed;
+  joystickData.steerMagnitude = steerMagnitude;
+
+  // Transmit data & save the report
+	bool report = radio.write(&joystickData, sizeof(DataPacket));
+
+	if (report) {
+    Serial.print("Transmission successful! ");  // Data was sent
+      Serial.print("Sent: ");
+      Serial.print(joystickData.motorSpeed); Serial.print(", "); Serial.println(joystickData.steerMagnitude);
+  } else {
+      Serial.println("Transmission failed or timed out"); // Data was not sent
+  }
+
+  // Throttle at motorSpeed
+  if (motorSpeed > 0) {
+    throttle(motorSpeed);
+  }
+
+  // Steer at steerMagnitude {
+    steer(steerMagnitude);
+  }
 
 	delay(1000);
 }
