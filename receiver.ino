@@ -62,8 +62,7 @@ void setup() {
 void loop() {
   DataPacket joystick;
 	if (radio.available()) {              // is there data? get the pipe number that received it
-    uint8_t bytes = radio.getPayloadSize();  // get the size of the data
-    radio.read(&joystick, bytes);             // fetch payload from FIFO 
+    radio.read(&joystick, sizeof(joystick));             // fetch payload from FIFO 
 
     // Store received values in new variables
     float motorSpeed = joystick.motorSpeed;

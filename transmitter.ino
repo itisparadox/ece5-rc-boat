@@ -37,7 +37,7 @@ void setup() {
 
 	// save on transmission time by setting the radio to only transmit the
   	// number of bytes we need to transmit a float
-  	radio.setPayloadSize(sizeof(payload));  // float datatype occupies 4 bytes
+  	//radio.setPayloadSize(sizeof(payload));  // float datatype occupies 4 bytes
 
 	radio.openWritingPipe(address); // start writing	
 	radio.stopListening(); // transmitter mode
@@ -53,7 +53,7 @@ void loop() {
 
   // Map the values and assign them to new variables
   float motorSpeed = -1 * ((y*2-1023) / 1023); // 1023 to 0 mapped to -1 to 1
-  float steerMagnitude = 2 + ((x-1023) / 1023); // 0 to 1023 mapped to 1 to 2
+  float steerMagnitude = 1 + (((2.5 * x) - 1023) / 1023); // 0 to 1023 mapped to 1 to 2
 
   // Debug motorSpeed and steerMagnitude: output values
   Serial.print("Motor Speed: "); Serial.println(motorSpeed, 2);
@@ -65,7 +65,7 @@ void loop() {
   joystickData.steerMagnitude = steerMagnitude;
 
   // Transmit data & save the report
-	bool report = radio.write(&joystickData, sizeof(DataPacket));
+	bool report = radio.write(&joystickData, sizeof(joystickData));
 
 	if (report) {
     Serial.print("Transmission successful! ");  // Data was sent
@@ -74,15 +74,4 @@ void loop() {
   } else {
       Serial.println("Transmission failed or timed out"); // Data was not sent
   }
-
-  // Throttle at motorSpeed
-  if (motorSpeed > 0) {
-    throttle(motorSpeed);
-  }
-
-  // Steer at steerMagnitude {
-    steer(steerMagnitude);
-  }
-
-	delay(1000);
 }
